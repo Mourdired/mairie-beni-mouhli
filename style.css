@@ -1,0 +1,149 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+    background: #f8f9fa;
+    color: #333;
+    line-height: 1.8;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header */
+header {
+    background: #1e5f3f;
+    color: white;
+    padding: 1rem 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+header.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.logo h1 { font-size: 1.8rem; }
+.logo p { font-size: 0.9rem; opacity: 0.9; }
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 12px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: 0.3s;
+}
+nav a:hover, nav a.active { background: rgba(255,255,255,0.2); }
+
+/* Hero */
+.hero {
+    background: linear-gradient(rgba(30,95,63,0.9), rgba(30,95,63,0.9));
+    color: white;
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.hero h2 { font-size: 2.2rem; margin-bottom: 10px; }
+
+/* الأحداث */
+.events,.page-title { padding: 60px 0; }
+.events h2,.page-title h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #221e5f;
+    font-size: 2rem;
+}
+
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.event-card,.info-card,.team-card {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+.event-card { border-right: 4px solid #1e5f3f; }
+.event-card.date {
+    color: #d32f2f;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+/* القرى */
+.page-title { background: #e8f5e9; padding: 40px 0; }
+.village-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 40px 0;
+}
+
+.village-card {
+    background: white;
+    padding: 30px 20px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    font-weight: bold;
+    color: #1e5f3f;
+    transition: 0.3s;
+    text-decoration: none;
+    display: block;
+}
+.village-card:hover { transform: translateY(-5px); background: #1e5f3f; color: white; }
+
+/* صفحات التفاصيل */
+.detail-page { padding: 40px 0; }
+.back-btn {
+    display: inline-block;
+    margin-bottom: 30px;
+    color: #1e5f3f;
+    text-decoration: none;
+    font-weight: bold;
+}
+.info-card p { margin-bottom: 15px; font-size: 1.1rem; }
+.info-card p strong { color: #1e5f3f; }
+
+.gallery h3 { color: #1e5f3f; margin: 30px 0 20px; }
+.images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+.images-grid img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Footer */
+footer {
+    background: #1e5f3f;
+    color: white;
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 60px;
+}
+
+/* متجاوب مع الجوال */
+@media (max-width: 768px) {
+    header.container { flex-direction: column; gap: 15px; }
+    nav { text-align: center; }
+   .hero h2 { font-size: 1.5rem; }
+}

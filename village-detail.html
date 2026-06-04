@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تفاصيل القرية - بلدية أيث مرحلي</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>بلدية أيث مرحلي</h1>
+                <p>ولاية الجزائر</p>
+            </div>
+            <nav>
+                <a href="index.html">الرئيسية</a>
+                <a href="services.html">الخدمات</a>
+                <a href="villages.html" class="active">القرى</a>
+                <a href="associations.html">الجمعيات</a>
+                <a href="sports.html">الرياضة</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="detail-page">
+        <div class="container">
+            <a href="villages.html" class="back-btn">→ العودة لقائمة القرى</a>
+            <div id="village-content"></div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 بلدية أيث مرحلي - جميع الحقوق محفوظة</p>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const villageId = urlParams.get('id');
+        const village = villagesData[villageId];
+
+        if (village) {
+            document.title = village.name + " - بلدية أيث مرحلي";
+            let imagesHTML = '';
+            if (village.images.length > 0) {
+                imagesHTML = `
+                    <div class="gallery">
+                        <h3>صور من ${village.name}</h3>
+                        <div class="images-grid">
+                            ${village.images.map(img => `<img src="${img}" alt="${village.name}">`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            document.getElementById('village-content').innerHTML = `
+                <h1>${village.name}</h1>
+                <div class="info-card">
+                    <p><strong>عدد السكان:</strong> ${village.population} نسمة</p>
+                    <p><strong>نبذة:</strong> ${village.description}</p>
+                </div>
+                ${imagesHTML}
+            `;
+        } else {
+            document.getElementById('village-content').innerHTML = '<h2>القرية غير موجودة</h2>';
+        }
+    </script>
+</body>
+</html>

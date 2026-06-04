@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تفاصيل الفريق - بلدية أيث مرحلي</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo"><h1>بلدية أيث مرحلي</h1><p>ولاية الجزائر</p></div>
+            <nav>
+                <a href="index.html">الرئيسية</a>
+                <a href="services.html">الخدمات</a>
+                <a href="villages.html">القرى</a>
+                <a href="associations.html">الجمعيات</a>
+                <a href="sports.html" class="active">الرياضة</a>
+            </nav>
+        </div>
+    </header>
+    <section class="detail-page">
+        <div class="container">
+            <a href="sports.html" class="back-btn">→ العودة لقائمة الفرق</a>
+            <div id="sport-content"></div>
+        </div>
+    </section>
+    <footer><div class="container"><p>© 2026 بلدية أيث مرحلي - جميع الحقوق محفوظة</p></div></footer>
+    <script src="js/data.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const sportId = urlParams.get('id');
+        const sport = sportsData[sportId];
+        if (sport) {
+            document.title = sport.name + " - بلدية أيث مرحلي";
+            let extraInfo = sport.stadium? `<p><strong>الملعب:</strong> ${sport.stadium}</p><p><strong>المدرب:</strong> ${sport.coach}</p>` : `<p><strong>الفئات:</strong> ${sport.categories}</p>`;
+            let imagesHTML = '';
+            if (sport.images.length > 0) {
+                imagesHTML = `
+                    <div class="gallery">
+                        <h3>صور من الفريق</h3>
+                        <div class="images-grid">
+                            ${sport.images.map(img => `<img src="${img}" alt="${sport.name}">`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            document.getElementById('sport-content').innerHTML = `
+                <h1>${sport.name}</h1>
+                <div class="info-card">
+                    <p><strong>التخصص:</strong> ${sport.type}</p>
+                    <p><strong>سنة التأسيس:</strong> ${sport.founded}</p>
+                    ${extraInfo}
+                    <p><strong>الوصف:</strong> ${sport.description}</p>
+                </div>
+                ${imagesHTML}
+            `;
+        }
+    </script>
+</body>
+</html>

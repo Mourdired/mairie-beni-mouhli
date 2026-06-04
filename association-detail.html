@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تفاصيل الجمعية - بلدية أيث مرحلي</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo"><h1>بلدية أيث مرحلي</h1><p>ولاية الجزائر</p></div>
+            <nav>
+                <a href="index.html">الرئيسية</a>
+                <a href="services.html">الخدمات</a>
+                <a href="villages.html">القرى</a>
+                <a href="associations.html" class="active">الجمعيات</a>
+                <a href="sports.html">الرياضة</a>
+            </nav>
+        </div>
+    </header>
+    <section class="detail-page">
+        <div class="container">
+            <a href="associations.html" class="back-btn">→ العودة لقائمة الجمعيات</a>
+            <div id="association-content"></div>
+        </div>
+    </section>
+    <footer><div class="container"><p>© 2026 بلدية أيث مرحلي - جميع الحقوق محفوظة</p></div></footer>
+    <script src="js/data.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const assocId = urlParams.get('id');
+        const assoc = associationsData[assocId];
+        if (assoc) {
+            document.title = assoc.name + " - بلدية أيث مرحلي";
+            let imagesHTML = '';
+            if (assoc.images.length > 0) {
+                imagesHTML = `
+                    <div class="gallery">
+                        <h3>صور من نشاطات الجمعية</h3>
+                        <div class="images-grid">
+                            ${assoc.images.map(img => `<img src="${img}" alt="${assoc.name}">`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            document.getElementById('association-content').innerHTML = `
+                <h1>${assoc.name}</h1>
+                <div class="info-card">
+                    <p><strong>نوع النشاط:</strong> ${assoc.type}</p>
+                    <p><strong>رئيس الجمعية:</strong> ${assoc.president}</p>
+                    <p><strong>عدد الأعضاء:</strong> ${assoc.members} عضو</p>
+                    <p><strong>الوصف:</strong> ${assoc.description}</p>
+                </div>
+                ${imagesHTML}
+            `;
+        }
+    </script>
+</body>
+</html>
