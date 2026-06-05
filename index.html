@@ -1,6 +1,4 @@
 
-
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -10,17 +8,17 @@
     <link rel="stylesheet" href="css/style.css">
     <style>
         /* ستايل قسم المنشورات الجديد */
-      .posts-section {
+     .posts-section {
             padding: 40px 0;
             background: #f9f9f9;
         }
-      .posts-section h2 {
+     .posts-section h2 {
             text-align: center;
             color: #0a7a3b;
             margin-bottom: 20px;
             font-size: 28px;
         }
-      .add-post-btn {
+     .add-post-btn {
             display: block;
             width: fit-content;
             margin: 0 auto 30px auto;
@@ -32,11 +30,11 @@
             font-weight: bold;
             transition: 0.3s;
         }
-      .add-post-btn:hover {
+     .add-post-btn:hover {
             background: #ffb300;
             transform: scale(1.05);
         }
-      .post-item {
+     .post-item {
             background: white;
             padding: 20px;
             margin-bottom: 15px;
@@ -44,26 +42,26 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             border-right: 4px solid #0a7a3b;
         }
-      .post-item h3 {
+     .post-item h3 {
             color: #0a7a3b;
             margin: 0 0 8px 0;
         }
-      .post-date {
+     .post-date {
             color: #666;
             font-size: 14px;
             margin-bottom: 10px;
         }
-      .post-content {
+     .post-content {
             line-height: 1.7;
             color: #333;
         }
-      .loading-posts {
+     .loading-posts {
             text-align: center;
             padding: 30px;
             color: #666;
         }
-        /* هذا الجزء الجديد تاع الصور */
-      .post-image {
+        /* الجزء الجديد تاع الصور */
+     .post-image {
             width: 100%;
             max-height: 400px;
             object-fit: cover;
@@ -164,10 +162,10 @@
 
                     if(!post['موضوع المنشور']) return;
 
-                    // هذا هو الجزء الجديد تاع الصور
+                    // هذا هو التعديل المهم : بدلت 'صورة المنشور' إلى 'رابط الصورة (اختياري)'
                     let imageHTML = '';
-                    if (post['صورة المنشور'] && post['صورة المنشور']!== '') {
-                        imageHTML = `<img src="${post['صورة المنشور']}" alt="صورة المنشور" class="post-image">`;
+                    if (post['رابط الصورة (اختياري)'] && post['رابط الصورة (اختياري)']!== '') {
+                        imageHTML = `<img src="${post['رابط الصورة (اختياري)']}" alt="صورة المنشور" class="post-image">`;
                     }
 
                     postsHTML += `
