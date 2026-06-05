@@ -10,57 +10,65 @@
     <link rel="stylesheet" href="css/style.css">
     <style>
         /* ستايل قسم المنشورات الجديد */
-       .posts-section { 
-            padding: 40px 0; 
-            background: #f9f9f9; 
+      .posts-section {
+            padding: 40px 0;
+            background: #f9f9f9;
         }
-       .posts-section h2 {
+      .posts-section h2 {
             text-align: center;
             color: #0a7a3b;
             margin-bottom: 20px;
             font-size: 28px;
         }
-       .add-post-btn {
+      .add-post-btn {
             display: block;
             width: fit-content;
             margin: 0 auto 30px auto;
-            background: #ffc107; 
-            color: #000; 
-            padding: 12px 25px; 
-            border-radius: 8px; 
-            text-decoration: none; 
+            background: #ffc107;
+            color: #000;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
             font-weight: bold;
             transition: 0.3s;
         }
-       .add-post-btn:hover {
+      .add-post-btn:hover {
             background: #ffb300;
             transform: scale(1.05);
         }
-       .post-item { 
-            background: white; 
-            padding: 20px; 
-            margin-bottom: 15px; 
-            border-radius: 10px; 
+      .post-item {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             border-right: 4px solid #0a7a3b;
         }
-       .post-item h3 { 
-            color: #0a7a3b; 
-            margin: 0 0 8px 0; 
+      .post-item h3 {
+            color: #0a7a3b;
+            margin: 0 0 8px 0;
         }
-       .post-date { 
-            color: #666; 
-            font-size: 14px; 
+      .post-date {
+            color: #666;
+            font-size: 14px;
             margin-bottom: 10px;
         }
-       .post-content { 
+      .post-content {
             line-height: 1.7;
             color: #333;
         }
-       .loading-posts {
+      .loading-posts {
             text-align: center;
             padding: 30px;
             color: #666;
+        }
+        /* هذا الجزء الجديد تاع الصور */
+      .post-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
         }
     </style>
 </head>
@@ -132,38 +140,53 @@
 
     <script>
         const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQKRDFSUrjOSgNG5dfw8Lz83RlKxHM5A_pUswsEeEUYGhaz6nDB_OhByFNxA9AvBssUSvjGBHI5b4IT/pub?gid=2118288231&single=true&output=csv';
-        
+
         async function loadPosts() {
             try {
                 const response = await fetch(CSV_URL);
                 const data = await response.text();
-                const rows = data.split('\n').slice(1);
-                
+                const rows = data.split('\n');
+
+                // نقراو أسماء الأعمدة من السطر الأول
+                const headers = rows[0].match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g).map(h => h.replace(/"/g, '').trim());
+
                 let postsHTML = '';
-                rows.reverse().forEach(row => {
+                rows.slice(1).reverse().forEach(row => {
                     if(row.trim() === '') return;
                     const cols = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g);
-                    if(!cols || cols.length < 3) return;
-                    
-                    const date = cols[0].replace(/"/g, '');
-                    const title = cols[1].replace(/"/g, '');
-                    const content = cols[2].replace(/"/g, '');
-                    
+                    if(!cols) return;
+
+                    // نحولو السطر لـ object باه نجيبو بالاسم
+                    let post = {};
+                    headers.forEach((header, i) => {
+                        post[header] = cols[i]? cols[i].replace(/"/g, '').trim() : '';
+                    });
+
+                    if(!post['موضوع المنشور']) return;
+
+                    // هذا هو الجزء الجديد تاع الصور
+                    let imageHTML = '';
+                    if (post['صورة المنشور'] && post['صورة المنشور']!== '') {
+                        imageHTML = `<img src="${post['صورة المنشور']}" alt="صورة المنشور" class="post-image">`;
+                    }
+
                     postsHTML += `
                         <div class="post-item">
-                            <h3>${title}</h3>
-                            <div class="post-date">📅 ${date}</div>
-                            <div class="post-content">${content.replace(/\n/g, '<br>')}</div>
+                            ${imageHTML}
+                            <h3>${post['موضوع المنشور']}</h3>
+                            <div class="post-date">📅 ${post['تاريخ النشر'] || post['Horodateur']}</div>
+                            <div class="post-content">${(post['محتوى المنشور'] || '').replace(/\n/g, '<br>')}</div>
                         </div>
                     `;
                 });
-                
+
                 document.getElementById('posts-container').innerHTML = postsHTML || '<div class="loading-posts">لا توجد منشورات حاليا</div>';
             } catch (error) {
                 document.getElementById('posts-container').innerHTML = '<div class="loading-posts">❌ خطأ في تحميل المنشورات</div>';
+                console.error(error);
             }
         }
-        
+
         loadPosts();
         // يتحدث كل دقيقة
         setInterval(loadPosts, 60000);
